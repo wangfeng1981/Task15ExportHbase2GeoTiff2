@@ -1,0 +1,10 @@
+2022-2-12
+HBase数据导出到GeoTiff
+针对Task15第一个版本的不足，编写该版本Task15...2
+1.支持Geojson裁剪
+2.支持脚本计算
+3.导出最大矩形范围100MB（未压缩）
+4.导出结果写入压缩（deflate）格式tif文件
+5.写入无效值
+6.通过AST解析pe.Dataset pe.DataArray求得最大zlevel
+
