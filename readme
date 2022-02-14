@@ -8,3 +8,8 @@ HBase数据导出到GeoTiff
 5.写入无效值
 6.通过AST解析pe.Dataset pe.DataArray求得最大zlevel
 
+
+
+git remote add origin https://github.com/wangfeng1981/Task15ExportHbase2GeoTiff2.git
+git branch -M main
+git push -u origin main
