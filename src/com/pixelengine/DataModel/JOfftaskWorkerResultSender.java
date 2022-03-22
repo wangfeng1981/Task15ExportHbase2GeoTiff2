@@ -1,5 +1,5 @@
 package com.pixelengine.DataModel;
-
+//2022-01-01
 import com.google.gson.Gson;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -32,7 +32,6 @@ public class JOfftaskWorkerResultSender {
             Gson gson = new Gson() ;
             String data = gson.toJson(res) ;
             socket.send(data.getBytes()) ;
-            System.out.println("sent");
         }catch (Exception ex ){
             System.out.println("JOfftaskWorkerResultSender send exception:"+ex.getMessage() );
         }
