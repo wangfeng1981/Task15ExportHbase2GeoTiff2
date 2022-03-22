@@ -1,5 +1,5 @@
-package com.pixelengine;
-
+package com.pixelengine.DataModel;
+//通用结果描述类
 public class JResult {
     int state ;// 0 is good, others are bad
     String message ;

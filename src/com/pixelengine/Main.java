@@ -19,6 +19,7 @@ public class Main {
         System.out.println("-Djava.library.path should be configed for gdal*.so and libHBasePeHelperCppConnector.so") ;
         System.out.println("v1.0.0 created 2022-2-12.") ;
         System.out.println("v1.1.0 0mq ok, script order ok. 2022-2-13.") ;
+        System.out.println("v1.1.1 use JExportOrder replace JOrder. 2022-2-15.") ;
         System.out.println(" ") ;
         System.out.println("call:java -jar /some/dir/Task15ExportHbase2GeoTiff2.jar config.json") ;
         System.out.println("datatype: 1-byte,2-u16,3-i16,4-u32,5-i32,6-float,7-double.");//2021-4-16
@@ -73,6 +74,7 @@ public class Main {
         JOfftaskWorkerResultSender.getSharedInstance() ;
 
         try{
+            System.out.println("OfftaskReceiver running...") ;
             while(true){
                 JOfftaskOrderMsg orderMsg = JOfftaskOrderMsgQueue.getSharedInstance().pop() ;
                 if( orderMsg != null )
@@ -88,7 +90,7 @@ public class Main {
                         //读取处理订单
                         System.out.println("read order information");
                         Gson gson = new Gson() ;
-                        JOrder order = gson.fromJson(orderText, JOrder.class) ;
+                        JExportOrder order = gson.fromJson(orderText, JExportOrder.class) ;
                         //start to process
                         System.out.println("start a worker for processing...");
                         WOrderWorker worker = new WOrderWorker() ;

@@ -7,6 +7,7 @@ HBase数据导出到GeoTiff
 4.导出结果写入压缩（deflate）格式tif文件
 5.写入无效值
 6.通过AST解析pe.Dataset pe.DataArray求得最大zlevel
+7.使用zeromq与task17交互消息
 
 
 

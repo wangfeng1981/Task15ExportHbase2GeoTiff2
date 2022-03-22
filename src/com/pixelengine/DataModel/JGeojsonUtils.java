@@ -1,4 +1,4 @@
-package com.pixelengine;
+package com.pixelengine.DataModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geojson.*;

@@ -32,6 +32,7 @@ public class JOfftaskWorkerResultSender {
             Gson gson = new Gson() ;
             String data = gson.toJson(res) ;
             socket.send(data.getBytes()) ;
+            System.out.println("sent");
         }catch (Exception ex ){
             System.out.println("JOfftaskWorkerResultSender send exception:"+ex.getMessage() );
         }

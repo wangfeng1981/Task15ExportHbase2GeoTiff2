@@ -1,21 +1,17 @@
 package com.pixelengine;
 //created 2022-2-13 1200 by wf
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.pixelengine.DataModel.JDsNameArrayResult;
-import com.pixelengine.DataModel.JProduct;
-import com.pixelengine.DataModel.WConfig;
+import com.pixelengine.DataModel.*;
+import com.pixelengine.HBasePeHelperCppConnector;
+import com.pixelengine.JRDBHelperForWebservice;
+import com.pixelengine.TileComputeResult;
 import com.pixelengine.Tools.JScriptTools;
 import com.pixelengine.Tools.JTileRangeTool;
 import com.pixelengine.Tools.JTileResolutionTool;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.geojson.*;
-import org.gdal.gdal.Band;
 import org.gdal.gdal.Dataset ;
 import org.gdal.gdal.Driver;
 import org.gdal.gdal.gdal;
-import org.gdal.gdalconst.gdalconstConstants;
-import sun.reflect.annotation.ExceptionProxy;
 
 import java.io.File;
 
@@ -81,7 +77,7 @@ public class WOrderWorker {
     }
 
 
-    public WResult processOneOrder(WConfig config, JOrder order ){
+    public WResult processOneOrder(WConfig config, JExportOrder order ){
         WResult r = new WResult() ;
         r.state = 9 ;
 
