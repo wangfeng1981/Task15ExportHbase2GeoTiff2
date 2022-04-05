@@ -4,7 +4,8 @@ package com.pixelengine.DataModel;
 //update 2022-2-13 2116
 //update 2022-3-5 2121
 //update 2022-3-18 0930 add initWithInStream method
-
+//update 2022-3-23 1647 add initWithString method
+//update 2022-4-5 offtask_producer_for_cppspark
 
 import com.google.gson.Gson;
 
@@ -35,6 +36,20 @@ public class WConfig {
         }catch(Exception ex )
         {
             System.out.println("WConfig.init Error : failed to init wconfig:"+ex.getMessage() );
+            System.exit(11);
+        }
+    }
+
+    public static void initWithString(String jsontext)
+    {
+        try
+        {
+            Gson gson0 = new Gson() ;
+            sharedInstance = new WConfig() ;
+            sharedInstance = gson0.fromJson(jsontext , WConfig.class) ;
+        }catch(Exception ex )
+        {
+            System.out.println("WConfig.init Error : failed to initWithString wconfig:"+ex.getMessage() );
             System.exit(11);
         }
     }
@@ -73,10 +88,13 @@ public class WConfig {
     public String gdalwarp ;
 
     //2022-2-13 2116
-    public String offtask_result_collector ;
-    public String offtask_export_producer ;
+    public String offtask_result_collector ;//全部离线任务结果收集器 0mq-socket
+    public String offtask_export_producer ;//task17 数据导出命令外发 0mq-socket
+    public String offtask_producer_for_cppspark ;//task17 离线spark瓦片计算命令外发 0mq-socket
 
     //2022-3-5 2121 ROI geojson和shp文件转换成hseg.tlv格式数据，然后写入HBase
     public String shpgeojson2hsegtlv ;
+
+
 
 }
