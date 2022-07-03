@@ -34,7 +34,7 @@ public class JOfftaskOrderSender {
 
             contextCppSpark = new ZContext( );
             senderSocketCppSpark = contextCppSpark.createSocket(SocketType.PUSH) ;
-            String socketStr2 = WConfig.getSharedInstance().offtask_producer_for_cppspark ;
+            String socketStr2 = WConfig.getSharedInstance().offtask_cppspark_order_recv_socket ;
             senderSocketCppSpark.bind(socketStr2) ;
         }catch (Exception ex ){
             System.out.println("JOfftaskOrderSender exception:"+ex.getMessage() );
@@ -52,6 +52,7 @@ public class JOfftaskOrderSender {
             }else{
                 senderSocketCppSpark.send(data.getBytes()) ;
             }
+            System.out.println("sending done");
         }catch (Exception ex ){
             System.out.println("JOfftaskOrderSender send exception:"+ex.getMessage() );
         }

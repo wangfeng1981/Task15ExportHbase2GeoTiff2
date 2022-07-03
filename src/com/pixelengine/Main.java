@@ -22,6 +22,7 @@ public class Main {
         System.out.println("v1.1.1 use JExportOrder replace JOrder. 2022-2-15.") ;
         System.out.println("v1.1.2 update new java files, 2022-4-5.") ;
         System.out.println("v1.1.2.1 update HBase...Helper 2022-6-9 commited") ;
+        System.out.println("v1.1.2.2 update java files from task17 2022-7-3") ;
         System.out.println(" ") ;
         System.out.println("call:java -jar /some/dir/Task15ExportHbase2GeoTiff2.jar task17config.json") ;
         System.out.println("datatype: 1-byte,2-u16,3-i16,4-u32,5-i32,6-float,7-double.");//2021-4-16
