@@ -26,6 +26,7 @@ public class Main {
         System.out.println("v1.1.2.3 update java files from task17 for nearest datetimeobj 2022-7-8") ;
         System.out.println("v1.1.2.4 update java files from task17 rdb 2022-7-13") ;
         System.out.println("v1.1.2.5 update java files from task17 2022-7-17") ;
+        System.out.println("v1.1.3.2 export bugfixed 2022-7-27") ;
         System.out.println(" ") ;
         System.out.println("call:java -jar /some/dir/Task15ExportHbase2GeoTiff2.jar task17config.json") ;
         System.out.println("datatype: 1-byte,2-u16,3-i16,4-u32,5-i32,6-float,7-double.");//2021-4-16
