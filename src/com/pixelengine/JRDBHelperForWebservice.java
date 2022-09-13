@@ -24,6 +24,11 @@ package com.pixelengine;
 //2022-7-3 rdbGetGreaterNearestHCol
 //2022-7-8 dateitem add dt0 dt1
 //2022-7-13 writeProductDataItem with dt0 dt1
+//2022-7-31
+//2022-8-5
+//2022-8-10
+//2022-9-8 add gots
+//2022-9-13 update offtask running state
 /////////////////////////////////////////////////////////
 
 
@@ -48,6 +53,14 @@ public class JRDBHelperForWebservice {
     public static Connection connection = null ;
     private static Hashtable<String,JProduct> productInfoPool =new Hashtable<String,JProduct>() ;
     private static Hashtable<Integer,String> productPidNamePool =new Hashtable<Integer,String>() ;
+    //2022-8-5
+    public static void clearProductPool() {
+        Integer tempObj = new Integer(0) ;
+        synchronized(tempObj){
+            productInfoPool.clear();
+            productPidNamePool.clear() ;
+        }
+    }
 
     private long getCurrentDatetime(){
         LocalDateTime myDateObj = LocalDateTime.now();
@@ -118,6 +131,108 @@ public class JRDBHelperForWebservice {
             return null ;
         }
     }
+
+    //2022-7-31
+    public ArrayList<JCategory> getCategories(int itype)
+    {
+        try {
+            ArrayList<JCategory> result = new ArrayList<>() ;
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            String sqlstr = "SELECT * FROM tbcategory WHERE itype="+String.valueOf(itype)
+                    +" AND visible=1 ORDER BY iorder ASC";
+            ResultSet rs = stmt.executeQuery(sqlstr) ;
+            while (rs.next()) {
+                JCategory r1 = new JCategory();
+                r1.catid = rs.getInt("catid");
+                r1.catname = rs.getString("catname");
+                r1.visible = rs.getInt("visible");
+                r1.iorder = rs.getInt("iorder");
+                result.add(r1) ;
+            }
+            return result ;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage()) ;
+            return null ;
+        }
+    }
+
+    //2022-7-31
+    public ArrayList<JMeta> getMetaByKey(String key)
+    {
+        try {
+            ArrayList<JMeta> result = new ArrayList<>() ;
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            String sqlstr = "SELECT * FROM tbmeta WHERE metakey=\""+key
+                    +"\" ORDER by metavali ASC";
+            ResultSet rs = stmt.executeQuery(sqlstr) ;
+            while (rs.next()) {
+                JMeta r1 = new JMeta();
+                r1.pk = rs.getInt("pk");
+                r1.theid = rs.getInt("theid");
+                r1.metakey = rs.getString("metakey");
+                r1.metavali = rs.getInt("metavali");
+                r1.metavalstr = rs.getString("metavalstr");
+                result.add(r1) ;
+            }
+            return result ;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage()) ;
+            return null ;
+        }
+    }
+
+    //2022-7-31
+    public ArrayList<JMeta> getMetaByTheId( int theid )
+    {
+        try {
+            ArrayList<JMeta> result = new ArrayList<>() ;
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            String sqlstr = "SELECT * FROM tbmeta WHERE theid="+String.valueOf(theid)
+                    +" ORDER by metavali ASC";
+            ResultSet rs = stmt.executeQuery(sqlstr) ;
+            while (rs.next()) {
+                JMeta r1 = new JMeta();
+                r1.pk = rs.getInt("pk");
+                r1.theid = rs.getInt("theid");
+                r1.metakey = rs.getString("metakey");
+                r1.metavali = rs.getInt("metavali");
+                r1.metavalstr = rs.getString("metavalstr");
+                result.add(r1) ;
+            }
+            return result ;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage()) ;
+            return null ;
+        }
+    }
+
+    //2022-7-31
+    public ArrayList<JMeta> getMetaByTheIdAndKey( int theid,String key )
+    {
+        try {
+            ArrayList<JMeta> result = new ArrayList<>() ;
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            String sqlstr = "SELECT * FROM tbmeta WHERE theid="+String.valueOf(theid)
+                    +" AND metakey=\""+key+"\" "
+                    +" ORDER by metavali ASC";
+            ResultSet rs = stmt.executeQuery(sqlstr) ;
+            while (rs.next()) {
+                JMeta r1 = new JMeta();
+                r1.pk = rs.getInt("pk");
+                r1.theid = rs.getInt("theid");
+                r1.metakey = rs.getString("metakey");
+                r1.metavali = rs.getInt("metavali");
+                r1.metavalstr = rs.getString("metavalstr");
+                result.add(r1) ;
+            }
+            return result ;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage()) ;
+            return null ;
+        }
+    }
+
+
 
     //获取当前分类的全部可见产品 2021-11-28
     public ArrayList<Integer> rdbGetCategoryProductDisplayIdList(int catid)
@@ -835,6 +950,27 @@ public class JRDBHelperForWebservice {
         }
     }
 
+    //search productdisplay
+    public ArrayList<Integer> searchProductDisplay( String key)   {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        try{
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            ResultSet rspd = stmt.executeQuery("SELECT dpid FROM tbproductdisplay WHERE "
+                    + "productname like \"%" + key + "%\" or "
+                    + " subtitle like \"%" + key + "%\" or "
+                    + " satellite like \"%" + key + "%\" or "
+                    + " sensor like \"%" + key + "%\"  "
+                    +" limit 20");
+            while (rspd.next()) {
+                result.add(rspd.getInt(1)) ;
+            }
+            return result ;
+        }catch(Exception ex){
+            System.out.println("rdbGetProductDisplayInfo exception:"+ex.getMessage());
+            return null ;
+        }
+    }
+
 
     //获取一个渲染方案
     public JStyleDbObject rdbGetStyle2(int styleid)   {
@@ -911,6 +1047,29 @@ public class JRDBHelperForWebservice {
             return pdt ;
         }catch(Exception ex){
             System.out.println("rdbGetProductDisplayInfo exception:"+ex.getMessage());
+            return null ;
+        }
+    }
+
+    //2022-9-8
+    //获取一个productDisplay 的产品GOTS命令脚本
+    public ArrayList<JMeta> rdbGetProductDisplayGotsMetas(int displayid)   {
+        try{
+            Statement stmt = JRDBHelperForWebservice.getConnection().createStatement();
+            ArrayList<JMeta> metas = new ArrayList<>();
+            ResultSet rspd = stmt.executeQuery("SELECT * FROM tbmeta WHERE metakey='PD_GOTS' AND theid="+displayid);
+            while (rspd.next()) {
+                JMeta meta1 = new JMeta() ;
+                meta1.pk = rspd.getInt(1) ;
+                meta1.theid = rspd.getInt(2) ;
+                meta1.metakey = rspd.getString(3) ;
+                meta1.metavali = rspd.getInt(4) ;
+                meta1.metavalstr = rspd.getString(5) ;
+                metas.add(meta1) ;
+            }
+            return metas ;
+        }catch(Exception ex){
+            System.out.println("rdbGetProductDisplayGotsMetas exception:"+ex.getMessage());
             return null ;
         }
     }
@@ -1510,6 +1669,59 @@ public class JRDBHelperForWebservice {
         }
     }
 
+
+    //search system roi 2022-8-10
+    public ArrayList<JRoi2> searchSystemRoi( String key ,int cnt) {
+        try{
+            //
+            String query2 = "SELECT * FROM tbroisys WHERE name like \"%"+key+"%\" Order by rid ASC LIMIT "+String.valueOf(cnt) ;
+            Statement stmt2 = JRDBHelperForWebservice.getConnection().createStatement();
+            ResultSet rs = stmt2.executeQuery(query2 );
+            ArrayList<JRoi2> res = new ArrayList<>() ;
+            while (rs.next()) {
+                JRoi2 roi2 = new JRoi2();
+                roi2.rid = rs.getInt(1) ;
+                roi2.rcid = rs.getInt(2);
+                roi2.name = rs.getString(3);
+                roi2.name2 = rs.getString(4);
+                roi2.geojson = rs.getString(5) ;
+                res.add(roi2);
+            }
+            return res ;
+        }catch (Exception ex )
+        {
+            System.out.println("Error : rdbGetSysRoiItemes exception , " + ex.getMessage() ) ;
+            return null ;
+        }
+    }
+
+    //search user roi 2022-8-10
+    public ArrayList<JRoi2> searchUserRoi(int uid, String key ,int cnt) {
+        try{
+            //
+            String query2 = "SELECT * FROM tbroiuser WHERE name like \"%"+key+"%\" AND uid="+String.valueOf(uid)+" Order by rid ASC LIMIT "+String.valueOf(cnt) ;
+            Statement stmt2 = JRDBHelperForWebservice.getConnection().createStatement();
+            ResultSet rs = stmt2.executeQuery(query2 );
+            ArrayList<JRoi2> res = new ArrayList<>() ;
+            while (rs.next()) {
+                JRoi2 roi2 = new JRoi2();
+                roi2.rid = rs.getInt(1) ;
+                roi2.name = rs.getString(2);
+                roi2.shp = rs.getString(3) ;
+                roi2.geojson = rs.getString(4) ;
+                roi2.uid = rs.getInt(5) ;//column 5
+                roi2.ctime = rs.getDate(6) ;
+                roi2.name2 = rs.getDate(6).toString();
+                res.add(roi2);
+            }
+            return res ;
+        }catch (Exception ex )
+        {
+            System.out.println("Error : rdbGetSysRoiItemes exception , " + ex.getMessage() ) ;
+            return null ;
+        }
+    }
+
     //获取系统ROI数量
     public int rdbGetSysRoiItemesCount(int catid) {
         try{
@@ -1570,6 +1782,7 @@ public class JRDBHelperForWebservice {
                 roi2.geojson = rs.getString(4) ;
                 roi2.uid = rs.getInt(5) ;//column 5
                 roi2.ctime = rs.getDate(6) ;
+                roi2.name2 = rs.getDate(6).toString();
                 return  roi2;
             }
             return null ;
@@ -1681,6 +1894,23 @@ public class JRDBHelperForWebservice {
         }catch (Exception ex )
         {
             System.out.println("Error : updateOfftaskByWorkerResult exception , " + ex.getMessage() ) ;
+            return false ;
+        }
+    }
+
+    //2022-9-13 0-not start; 1-running; 2-done; 3-failed.
+    public boolean updateOfftaskState ( int ofid, int status){
+        try{
+            String query2 = "UPDATE tbofftask SET utime=? , status=? WHERE ofid=?";
+            PreparedStatement preparedStmt2 = JRDBHelperForWebservice.getConnection().prepareStatement(query2);
+            preparedStmt2.setString(1 , getCurrentDatetimeStr());
+            preparedStmt2.setInt      (2, status);
+            preparedStmt2.setInt      (3, ofid);
+            preparedStmt2.executeUpdate();
+            return true ;
+        }catch (Exception ex )
+        {
+            System.out.println("Error : updateOfftaskState exception , " + ex.getMessage() ) ;
             return false ;
         }
     }

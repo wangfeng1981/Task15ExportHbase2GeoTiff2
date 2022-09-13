@@ -1,6 +1,8 @@
 package com.pixelengine.DataModel;
 //2021-3
 //2022-01-01
+//2022-8-3 displayid
+//2022-9-8 gots
 import com.pixelengine.JRDBHelperForWebservice;
 
 import java.sql.SQLException;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 
 
 public class JProduct {
+    public String displayid=""; //only used in display
     public int pid ;
     public String name,proj;
     public int minZoom,maxZoom,dataType,timeType;
@@ -18,6 +21,7 @@ public class JProduct {
     public int styleid , userid ;
     public String source;//hbase or file or sqlite(not use)
     public String[] caps ;//not in use
+    public ArrayList<JMeta> gots = new ArrayList<>();
     /*
     区域统计	zs
     序列分析	xl

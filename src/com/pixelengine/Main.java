@@ -27,6 +27,13 @@ public class Main {
         System.out.println("v1.1.2.4 update java files from task17 rdb 2022-7-13") ;
         System.out.println("v1.1.2.5 update java files from task17 2022-7-17") ;
         System.out.println("v1.1.3.2 export bugfixed 2022-7-27") ;
+
+        //v1.1.4.x
+        // update java files
+        // send task running msg
+        // set send time out.
+        System.out.println("v1.1.4.0d 2022-9-13") ;
+
         System.out.println(" ") ;
         System.out.println("call:java -jar /some/dir/Task15ExportHbase2GeoTiff2.jar task17config.json") ;
         System.out.println("datatype: 1-byte,2-u16,3-i16,4-u32,5-i32,6-float,7-double.");//2021-4-16
@@ -94,6 +101,14 @@ public class Main {
                         System.out.println("Error: orderText is null") ;
                         res.state = 19 ;//bad orderText
                     }else{
+                        {
+                            JOfftaskWorkerResult resRunning = new JOfftaskWorkerResult() ;
+                            resRunning.status = 1 ;
+                            resRunning.state = 0 ;
+                            resRunning.ofid = orderMsg.ofid;
+                            resRunning.resultRelFilepath = "" ;
+                            JOfftaskWorkerResultSender.getSharedInstance().send( resRunning );
+                        }
                         //读取处理订单
                         System.out.println("read order information");
                         Gson gson = new Gson() ;
