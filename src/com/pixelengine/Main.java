@@ -32,7 +32,7 @@ public class Main {
         // update java files
         // send task running msg
         // set send time out.
-        System.out.println("v1.1.4.0d 2022-9-13") ;
+        System.out.println("v1.1.4.3 2022-9-13") ;
 
         System.out.println(" ") ;
         System.out.println("call:java -jar /some/dir/Task15ExportHbase2GeoTiff2.jar task17config.json") ;
@@ -103,7 +103,7 @@ public class Main {
                     }else{
                         {
                             JOfftaskWorkerResult resRunning = new JOfftaskWorkerResult() ;
-                            resRunning.status = 1 ;
+                            resRunning.status = 1 ;//running
                             resRunning.state = 0 ;
                             resRunning.ofid = orderMsg.ofid;
                             resRunning.resultRelFilepath = "" ;
